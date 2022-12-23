@@ -1,10 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UrlShortener.Core.Interfaces.Data;
+using UrlShortener.Core.Models;
 
 namespace UrlShortener.Infrastructure.Repositories
 {
@@ -15,29 +17,13 @@ namespace UrlShortener.Infrastructure.Repositories
 
 		public async Task<int> GetCounterValue()
 		{
-			var value = await _dbContext.Counters.LastAsync();
+			var counter = new CounterEntity();
 
-			bool updateFailed = true;
+			await _dbContext.AddAsync(counter);
 
-			while (updateFailed)
-			{
-				try
-				{
-					value.CurrentValue++;
+			await _dbContext.SaveChangesAsync();
 
-					await _dbContext.SaveChangesAsync();
-
-					updateFailed = false;
-				}
-
-				catch (DbUpdateConcurrencyException ex)
-				{
-					await ex.Entries.Single().ReloadAsync();
-				}
-			}
-
-			return value.CurrentValue;
+			return counter.CurrentValue;
 		}
-
 	}
 }

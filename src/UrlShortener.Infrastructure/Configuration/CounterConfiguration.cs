@@ -8,11 +8,11 @@ namespace UrlShortener.Infrastructure.Configuration
 	{
 		public void Configure(EntityTypeBuilder<CounterEntity> builder)
 		{
-			builder.HasNoKey();
+			builder.HasKey(x => x.CurrentValue);
 
 			builder.HasData(new CounterEntity { CurrentValue = 1 });
 
-			builder.Property(x => x.CurrentValue).IsConcurrencyToken();
+			builder.Property(x => x.CurrentValue).ValueGeneratedOnAdd();
 		}
 	}
 }

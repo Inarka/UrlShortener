@@ -1,7 +1,5 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using Npgsql;
 using UrlShortener.Core.Interfaces;
 using UrlShortener.WebApi.Models;
 
@@ -44,19 +42,4 @@ public class UrlShortenerController : ControllerBase
 
         return Ok(response);
     }
-
-    [HttpGet("test")]
-    public async Task<IActionResult> Test()
-    {
-		NpgsqlConnection conn = new NpgsqlConnection("User ID =postgres;Password=inarka99;Server=localhost;Port=5432;Database=postgres;");
-
-		conn.Open();
-
-		if (conn.State == System.Data.ConnectionState.Open)
-			Console.WriteLine("Success open postgreSQL connection.");
-
-		conn.Close();
-
-        return Ok();
-	}
 }
