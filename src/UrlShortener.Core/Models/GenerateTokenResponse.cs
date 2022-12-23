@@ -2,6 +2,7 @@
 {
 	public class UrlEntity
 	{
+		public UrlEntity() { }
 		public UrlEntity(string url, string token, byte[] qrCode)
 		{
 			OriginalUrl = url;
@@ -9,10 +10,10 @@
 			QrCode = qrCode;
 		}
 
-		public string Token { get; set; }
+		public string Token { get; set; } = "";
 
-		public string OriginalUrl { get; set; }
+		public string OriginalUrl { get; set; } = "";
 
-		public byte[] QrCode { get; set; }
+		public byte[] QrCode { get; set; } = new byte[0];
 	}
 }

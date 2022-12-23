@@ -22,7 +22,7 @@ namespace UrlShortener.Infrastructure
 			modelBuilder.ApplyConfiguration(new UrlEntityConfiguration());
 		}
 
-		public DbSet<UrlEntity> Tokens { get; set; }
+		public DbSet<UrlEntity> Urls { get; set; }
 
 		public DbSet<CounterEntity> Counters { get; set; }
 	}

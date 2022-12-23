@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UrlShortener.Core.Interfaces;
 using UrlShortener.Core.Interfaces.Helpers;
+using UrlShortener.Core.Services;
 using UrlShortener.Core.Services.Helpers;
 
 namespace UrlShortener.Core
@@ -18,6 +20,8 @@ namespace UrlShortener.Core
 			services.AddTransient<ITokenGenerator, TokenGenerator>();
 
 			services.AddTransient<IQrCodeGenerator, QrCodeGenerator>();
+
+			services.AddTransient<IShortUrlService, ShortUrlService>();
 
 			return services;
 		}

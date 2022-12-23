@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddCore();
+
 builder.Services.AddInfrastructure(builder.Configuration.GetConnectionString("DbConnection"));
 
 

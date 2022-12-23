@@ -21,7 +21,7 @@ namespace UrlShortener.Infrastructure.Repositories
 
 		public Task<UrlEntity?> GetAsync(string url)
 		{
-			return _dbContext.Tokens.FirstOrDefaultAsync(t => t.OriginalUrl == url);
+			return _dbContext.Urls.FirstOrDefaultAsync(t => t.OriginalUrl == url);
 		}
 
 		public async Task SaveAsync(UrlEntity token)

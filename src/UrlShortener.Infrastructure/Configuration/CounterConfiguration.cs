@@ -8,7 +8,9 @@ namespace UrlShortener.Infrastructure.Configuration
 	{
 		public void Configure(EntityTypeBuilder<CounterEntity> builder)
 		{
-			builder.HasData(new CounterEntity { CurrentValue = 0 });
+			builder.HasNoKey();
+
+			builder.HasData(new CounterEntity { CurrentValue = 1 });
 
 			builder.Property(x => x.CurrentValue).IsConcurrencyToken();
 		}
