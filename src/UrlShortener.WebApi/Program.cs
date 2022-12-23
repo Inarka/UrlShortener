@@ -1,8 +1,13 @@
+using UrlShortener.Core;
 using UrlShortener.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+builder.Services.AddCore();
 builder.Services.AddInfrastructure(builder.Configuration.GetConnectionString("DbConnection"));
+
 
 // Add services to the container.
 
