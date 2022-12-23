@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using UrlShortener.Core.Models;
 
-namespace UrlShortener.Core.Interfaces
+namespace UrlShortener.Core.Interfaces.Helpers
 {
-	public  interface ITokenService
-	{
-		public Task<Token> GetTokenAsync(string url);
-	}
+    public interface ITokenGenerator
+    {
+        public Task<string> GenerateTokenAsync();
+    }
 }

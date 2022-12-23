@@ -1,6 +1,6 @@
 ﻿namespace UrlShortener.WebApi.Models
 {
-	public class GenerateTokenResponseDto
+	public class GenerateShortUrlResponse
 	{
 		public string ShortUrl { get; set; } = "";
 

@@ -7,8 +7,9 @@ using UrlShortener.Core.Models;
 
 namespace UrlShortener.Core.Interfaces
 {
-	public interface ITokenGenerator
+	public  interface IShortUrlService
 	{
-		public Task<Token> GenerateTokenAsync(string url);
+		public Task<UrlEntity> GenerateShortUrlAsync(string longUrl);
+		public Task<UrlEntity?> GetUrlAsync(string longUrl);
 	}
 }

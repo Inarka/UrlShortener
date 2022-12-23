@@ -1,4 +1,8 @@
+using UrlShortener.Infrastructure;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddInfrastructure(builder.Configuration.GetConnectionString("DbConnection"));
 
 // Add services to the container.
 

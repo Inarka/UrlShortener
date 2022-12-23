@@ -1,13 +1,18 @@
 ﻿namespace UrlShortener.Core.Models
 {
-	public class Token
+	public class UrlEntity
 	{
-		public Guid Id { get; set; }
+		public UrlEntity(string url, string token, byte[] qrCode)
+		{
+			OriginalUrl = url;
+			Token = token;
+			QrCode = qrCode;
+		}
 
-		public string Url { get; set; } = "";
+		public string Token { get; set; }
 
-		public string ShortUrl { get; set; } = "";
+		public string OriginalUrl { get; set; }
 
-		public byte[] QrCode { get; set; } = new byte[0];
+		public byte[] QrCode { get; set; }
 	}
 }

@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UrlShortener.Core.Models;
 
-namespace UrlShortener.Core.Interfaces
+namespace UrlShortener.Core.Interfaces.Data
 {
 	public interface ITokenRepository
 	{
-		public Task<Token?> GetTokenAsync(string url);
-		public Task SaveTokenAsync(Token token);
+		Task<int> GetCounterValue();
 	}
 }

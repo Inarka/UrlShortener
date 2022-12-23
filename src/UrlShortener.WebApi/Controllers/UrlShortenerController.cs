@@ -1,46 +1,46 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using UrlShortener.Core.Interfaces;
-using UrlShortener.Core.Models;
 using UrlShortener.WebApi.Models;
 
 namespace UrlShortener.WebApi.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class UrlShortenerController : ControllerBase
 {
-
     private readonly ILogger<UrlShortenerController> _logger;
-    private readonly ITokenService _tokenService;
+    private readonly IShortUrlService _urlService;
     private readonly IMapper _mapper;
 
-    public UrlShortenerController(ILogger<UrlShortenerController> logger, ITokenService tokenService, IMapper mapper)
+    public UrlShortenerController(ILogger<UrlShortenerController> logger, IShortUrlService urlService, IMapper mapper)
     {
         _logger = logger;
-		_tokenService = tokenService;
+		_urlService = urlService;
         _mapper = mapper;
     }
+
     [HttpGet("link")]
 	public async Task<IActionResult> GetLink(string token)
 	{
-		var response = await _tokenService.GetTokenAsync(token);
+		var response = await _urlService.GetUrlAsync(token);
 
         if (response == null)
         {
-            return NotFound();
+            return NotFound("¬веденный токен не найден");
         }
 
-        return Redirect(response.Url);
+        return Redirect(response.OriginalUrl);
 	}
 
-	[HttpPost("generate-token")]
-    public async Task<IActionResult> GenerateToken(GenerateTokenRequestDto request)
+	[HttpPost("generate-short-url")]
+    public async Task<IActionResult> GenerateShortUrlAsync(GenerateShortUrlRequest request)
     {
-        var token = await _tokenService.GetTokenAsync(request.Url);
+        var shortUrl = await _urlService.GenerateShortUrlAsync(request.Url);
 
-        var tokenResponseDto = _mapper.Map<GenerateTokenResponseDto>(token);
+        var response = _mapper.Map<GenerateShortUrlResponse>(shortUrl);
 
-        return Ok(tokenResponseDto);
+        return Ok(response);
     }
 }

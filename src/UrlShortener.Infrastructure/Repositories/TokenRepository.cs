@@ -1,22 +1,43 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UrlShortener.Core.Interfaces;
-using UrlShortener.Core.Models;
+using UrlShortener.Core.Interfaces.Data;
 
 namespace UrlShortener.Infrastructure.Repositories
 {
 	internal class TokenRepository : ITokenRepository
 	{
-		public async Task<Token?> GetTokenAsync(string url)
+		private readonly AppDbContext _dbContext;
+		public TokenRepository(AppDbContext dbContext) => _dbContext = dbContext;
+
+		public async Task<int> GetCounterValue()
 		{
-			return new Token();
+			var value = await _dbContext.Counters.LastAsync();
+
+			bool updateFailed = true;
+
+			while (updateFailed)
+			{
+				try
+				{
+					value.CurrentValue++;
+
+					await _dbContext.SaveChangesAsync();
+
+					updateFailed = false;
+				}
+
+				catch (DbUpdateConcurrencyException ex)
+				{
+					await ex.Entries.Single().ReloadAsync();
+				}
+			}
+
+			return value.CurrentValue;
 		}
-		public async Task SaveTokenAsync(Token token)
-		{
-			return Task.CompletedTask;
-		}
+
 	}
 }
