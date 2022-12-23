@@ -9,7 +9,8 @@ namespace UrlShortener.WebApi.Mapping
 		public ResponseMappingProfile()
 		{
 			CreateMap<UrlEntity, GenerateShortUrlResponse>()
-				.ForMember(dest => dest.ShortUrl, opt => opt.MapFrom((src, dest, destMember, context) => context.Items["BaseShortUrl"] + dest.Token));
+				.ForMember(dest => dest.ShortUrl, opt => opt.MapFrom((src, dest, destMember, context) 
+													  => context.Items["BaseShortUrl"] + dest.Token));
 		}
 	}
 }

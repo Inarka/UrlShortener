@@ -15,8 +15,6 @@ namespace UrlShortener.Core
 	{
 		public static IServiceCollection AddCore(this IServiceCollection services)
 		{
-			services.AddTransient<IEncoder, Base62Encoder>();
-
 			services.AddTransient<ITokenGenerator, TokenGenerator>();
 
 			services.AddTransient<IQrCodeGenerator, QrCodeGenerator>();

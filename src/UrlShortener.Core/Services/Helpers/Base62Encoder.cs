@@ -3,11 +3,11 @@ using UrlShortener.Core.Interfaces.Helpers;
 
 namespace UrlShortener.Core.Services.Helpers
 {
-    internal class Base62Encoder : IEncoder
+    internal static class Base62Encoder 
     {
         private const string _alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-        public string Encode(int counter)
+        public static string Encode(int counter)
         {
             var result = new StringBuilder();
 
