@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UrlShortener.Core.Models;
+using UrlShortener.Core.Models.Entities;
 
 namespace UrlShortener.Infrastructure.Configuration
 {

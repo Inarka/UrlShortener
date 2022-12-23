@@ -8,6 +8,6 @@ namespace UrlShortener.Core.Interfaces.Data
 {
 	public interface ITokenRepository
 	{
-		Task<int> GetCounterValue();
+		public Task<int> GetCounterValue();
 	}
 }

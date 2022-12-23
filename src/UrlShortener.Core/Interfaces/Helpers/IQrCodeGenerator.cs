@@ -8,6 +8,6 @@ namespace UrlShortener.Core.Interfaces.Helpers
 {
     internal interface IQrCodeGenerator
     {
-        public Task<byte[]> Generate(string input);
+        public byte[] Generate(string input);
     }
 }

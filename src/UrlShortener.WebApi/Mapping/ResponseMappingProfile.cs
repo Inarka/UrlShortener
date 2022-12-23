@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using UrlShortener.Core.Models;
+using UrlShortener.Core.Models.Entities;
 using UrlShortener.WebApi.Models;
 
 namespace UrlShortener.WebApi.Mapping
@@ -8,7 +8,8 @@ namespace UrlShortener.WebApi.Mapping
 	{
 		public ResponseMappingProfile()
 		{
-			CreateMap<UrlEntity, GenerateShortUrlResponse>();
+			CreateMap<UrlEntity, GenerateShortUrlResponse>()
+				.ForMember(dest => dest.ShortUrl, opt => opt.MapFrom((src, dest, destMember, context) => context.Items["BaseShortUrl"] + dest.Token));
 		}
 	}
 }

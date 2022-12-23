@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IronBarCode;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,9 @@ namespace UrlShortener.Core.Services.Helpers
 {
     internal class QrCodeGenerator : IQrCodeGenerator
     {
-        public Task<byte[]> Generate(string input) => throw new NotImplementedException();
+        public byte[] Generate(string input)
+        {
+            return QRCodeWriter.CreateQrCode(input).ToPngBinaryData();
+		}
     }
 }

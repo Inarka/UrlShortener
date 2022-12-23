@@ -1,7 +1,5 @@
-﻿using Microsoft.Extensions.Options;
-using UrlShortener.Core.Interfaces.Data;
+﻿using UrlShortener.Core.Interfaces.Data;
 using UrlShortener.Core.Interfaces.Helpers;
-using UrlShortener.Core.Models;
 
 namespace UrlShortener.Core.Services.Helpers
 {
@@ -15,7 +13,8 @@ namespace UrlShortener.Core.Services.Helpers
             _tokenRepository = tokenRepository;
             _encoder = encoder;
         }
-        public async Task<string> GenerateTokenAsync()
+
+        public async Task<string> GenerateAsync()
         {
             var counter = await _tokenRepository.GetCounterValue();
 

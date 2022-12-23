@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UrlShortener.Core.Interfaces.Data;
-using UrlShortener.Core.Models;
+using UrlShortener.Core.Models.Entities;
 
 namespace UrlShortener.Infrastructure.Repositories
 {
@@ -19,14 +19,19 @@ namespace UrlShortener.Infrastructure.Repositories
 			_dbContext = dbContext;
 		}
 
-		public Task<UrlEntity?> GetAsync(string url)
+		public Task<UrlEntity?> FindByTokenAsync(string token)
 		{
-			return _dbContext.Urls.FirstOrDefaultAsync(t => t.OriginalUrl == url);
+			return _dbContext.Urls.AsNoTracking().FirstOrDefaultAsync(t => t.Token == token);
+		}
+
+		public Task<UrlEntity?> FindByOriginalUrlAsync(string originalUrl)
+		{
+			return _dbContext.Urls.AsNoTracking().FirstOrDefaultAsync(t => t.OriginalUrl.ToLower() == originalUrl.ToLower());
 		}
 
 		public async Task SaveAsync(UrlEntity token)
 		{
-			await _dbContext.AddAsync(token);
+			await _dbContext.Urls.AddAsync(token);
 
 			await _dbContext.SaveChangesAsync();
 		}

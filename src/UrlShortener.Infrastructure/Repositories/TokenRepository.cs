@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UrlShortener.Core.Interfaces.Data;
 using UrlShortener.Core.Models;
+using UrlShortener.Core.Models.Entities;
 
 namespace UrlShortener.Infrastructure.Repositories
 {
@@ -17,11 +18,28 @@ namespace UrlShortener.Infrastructure.Repositories
 
 		public async Task<int> GetCounterValue()
 		{
-			var counter = new CounterEntity();
+			var counter = await _dbContext.Counters.LastAsync();
 
-			await _dbContext.AddAsync(counter);
+			var dbException = true;
 
-			await _dbContext.SaveChangesAsync();
+			while (dbException)
+			{
+				counter.CurrentValue++;
+
+				try
+				{
+					await _dbContext.SaveChangesAsync();
+
+					dbException = false;
+				}
+
+				catch(DbUpdateConcurrencyException ex)
+				{
+					var entry = ex.Entries.Single();
+
+					entry.OriginalValues.SetValues(entry.GetDatabaseValues()!);
+				}
+			}
 
 			return counter.CurrentValue;
 		}

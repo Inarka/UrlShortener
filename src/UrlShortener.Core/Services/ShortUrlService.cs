@@ -1,7 +1,10 @@
-﻿using UrlShortener.Core.Interfaces;
+﻿using Microsoft.Extensions.Options;
+using UrlShortener.Core.Interfaces;
 using UrlShortener.Core.Interfaces.Data;
 using UrlShortener.Core.Interfaces.Helpers;
 using UrlShortener.Core.Models;
+using UrlShortener.Core.Models.Entities;
+using UrlShortener.Core.Services.Helpers.Extensions;
 
 namespace UrlShortener.Core.Services
 {
@@ -11,41 +14,43 @@ namespace UrlShortener.Core.Services
 		private readonly ITokenGenerator _tokenGenerator;
 		private readonly IQrCodeGenerator _qrCodeGenerator;
 
-		public ShortUrlService(IUrlRepository linkRepository, ITokenGenerator tokenGenerator, IQrCodeGenerator qrCodeGenerator)
+		public ShortUrlService(IUrlRepository linkRepository, 
+			ITokenGenerator tokenGenerator, 
+			IQrCodeGenerator qrCodeGenerator)
 		{
 			_urlRepository = linkRepository;
 			_tokenGenerator = tokenGenerator;
 			_qrCodeGenerator = qrCodeGenerator;
 		}
 
-		public Task<UrlEntity?> GetUrlAsync(string link)
+		public Task<UrlEntity?> GetOriginalUrlAsync(string token)
 		{
-			return _urlRepository.GetAsync(link);
+			return _urlRepository.FindByTokenAsync(token);
 		}
 
-		public async Task<UrlEntity> GenerateShortUrlAsync(string link)
+		public async Task<UrlEntity> GetShortUrlAsync(string originalUrl)
 		{
-			var shortUrl = await GetUrlAsync(link);
+			originalUrl = originalUrl.AddSchema();
 
-			if (shortUrl != null)
+			var shortUrl = await _urlRepository.FindByOriginalUrlAsync(originalUrl);
+
+			if (shortUrl == null)
 			{
-				return shortUrl;
+				shortUrl = await CreateShortUrl(originalUrl);
+
+				await _urlRepository.SaveAsync(shortUrl);
 			}
-
-			shortUrl = await CreateShortUrl(link);
-
-			await _urlRepository.SaveAsync(shortUrl);
 
 			return shortUrl;
 		}
 
-		private async Task<UrlEntity> CreateShortUrl(string link)
+		private async Task<UrlEntity> CreateShortUrl(string originalUrl)
 		{
-			var token = await _tokenGenerator.GenerateTokenAsync();
+			var token = await _tokenGenerator.GenerateAsync();
 
-			var qrCode = await _qrCodeGenerator.Generate(token);
+			var qrCode = _qrCodeGenerator.Generate(token);
 
-			return new UrlEntity(link, token, qrCode);
+			return new UrlEntity(originalUrl, token, qrCode);
 		}
 	}
 }

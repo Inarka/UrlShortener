@@ -7,8 +7,8 @@ using UrlShortener.Core.Models;
 
 namespace UrlShortener.Core.Interfaces.Helpers
 {
-    public interface ITokenGenerator
+    internal interface ITokenGenerator
     {
-        public Task<string> GenerateTokenAsync();
+        public Task<string> GenerateAsync();
     }
 }
