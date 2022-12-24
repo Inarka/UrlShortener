@@ -10,7 +10,7 @@ namespace UrlShortener.Infrastructure.Repositories
 
 		public async Task<int> GetCounterValue()
 		{
-			var counter = await _dbContext.Counters.LastAsync();
+			var counter = await _dbContext.Counters.SingleAsync();
 
 			var dbException = true;
 

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using UrlShortener.WebApi.Models.Attributes;
 
 namespace UrlShortener.WebApi.Models
 {

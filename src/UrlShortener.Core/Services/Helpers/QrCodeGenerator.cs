@@ -7,7 +7,9 @@ namespace UrlShortener.Core.Services.Helpers
     {
         public byte[] Generate(string input)
         {
-            return QRCodeWriter.CreateQrCode(input).ToPngBinaryData();
+            //return QRCodeWriter.CreateQrCode(input).ToPngBinaryData();
+
+            return new byte[0];
 		}
     }
 }

@@ -2,23 +2,27 @@
 using UrlShortener.Core.Interfaces.Data;
 using UrlShortener.Core.Interfaces.Helpers;
 using UrlShortener.Core.Models.Entities;
+using UrlShortener.Core.Models.Exceptions;
 using UrlShortener.Core.Services.Helpers.Extensions;
 
 namespace UrlShortener.Core.Services
 {
 	internal class ShortUrlService : IShortUrlService
 	{
+		private readonly IUriHelper _uriHelper;
 		private readonly IUrlRepository _urlRepository;
 		private readonly ITokenGenerator _tokenGenerator;
 		private readonly IQrCodeGenerator _qrCodeGenerator;
 
-		public ShortUrlService(IUrlRepository linkRepository, 
-			ITokenGenerator tokenGenerator, 
-			IQrCodeGenerator qrCodeGenerator)
+		public ShortUrlService(IUrlRepository linkRepository,
+			ITokenGenerator tokenGenerator,
+			IQrCodeGenerator qrCodeGenerator,
+			IUriHelper validator)
 		{
 			_urlRepository = linkRepository;
 			_tokenGenerator = tokenGenerator;
 			_qrCodeGenerator = qrCodeGenerator;
+			_uriHelper = validator;
 		}
 
 		public Task<UrlEntity?> GetOriginalUrlAsync(string token)
@@ -28,13 +32,16 @@ namespace UrlShortener.Core.Services
 
 		public async Task<UrlEntity> GetShortUrlAsync(string originalUrl)
 		{
-			originalUrl = originalUrl.AddSchema();
+			if (!_uriHelper.TryCreateValidUrl(originalUrl, out var validUrl))
+			{
+				throw new NotValidUrlException();
+			}
 
-			var shortUrl = await _urlRepository.FindByOriginalUrlAsync(originalUrl);
+			var shortUrl = await _urlRepository.FindByOriginalUrlAsync(validUrl);
 
 			if (shortUrl == null)
 			{
-				shortUrl = await CreateShortUrl(originalUrl);
+				shortUrl = await CreateShortUrl(validUrl);
 
 				await _urlRepository.SaveAsync(shortUrl);
 			}

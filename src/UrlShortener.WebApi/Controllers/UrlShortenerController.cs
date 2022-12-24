@@ -37,6 +37,11 @@ public class UrlShortenerController : ControllerBase
 	[HttpPost("generate-short-url")]
     public async Task<IActionResult> GenerateShortUrlAsync(GenerateShortUrlRequest request)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest("Проверьте модель данных");
+        }
+
         var shortUrl = await _urlService.GetShortUrlAsync(request.Url);
 
         var response = _mapper.Map<GenerateShortUrlResponse>(shortUrl, opt => opt.Items["BaseShortUrl"] = _urlSettings.BaseShortUrl);
