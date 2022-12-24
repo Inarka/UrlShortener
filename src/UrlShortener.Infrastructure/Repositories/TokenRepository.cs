@@ -1,13 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UrlShortener.Core.Interfaces.Data;
-using UrlShortener.Core.Models;
-using UrlShortener.Core.Models.Entities;
 
 namespace UrlShortener.Infrastructure.Repositories
 {

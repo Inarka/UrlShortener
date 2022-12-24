@@ -1,5 +1,6 @@
 using UrlShortener.Core;
 using UrlShortener.Infrastructure;
+using UrlShortener.WebApi.Middleware;
 using UrlShortener.WebApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +22,8 @@ builder.Services.Configure<UrlSettings>(builder.Configuration.GetSection(UrlSett
 
 var app = builder.Build();
 
+app.ConfigureExceptionHandlingMiddleware();
+
 if (app.Environment.IsDevelopment())
 {
 	app.UseSwagger();
@@ -30,9 +33,9 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors(x => x.AllowAnyMethod()
-				.AllowAnyHeader()
-				.SetIsOriginAllowed(origin => true) // allow any origin
-				.AllowCredentials());
+				  .AllowAnyHeader()
+				  .SetIsOriginAllowed(origin => true) 
+				  .AllowCredentials());
 
 app.UseAuthorization();
 

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UrlShortener.Core.Models.Entities;
+﻿using UrlShortener.Core.Models.Entities;
 
 namespace UrlShortener.Core.Interfaces.Data
 {

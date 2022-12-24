@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UrlShortener.Core.Models.Entities;
 
 namespace UrlShortener.Infrastructure.Configuration
@@ -14,6 +9,8 @@ namespace UrlShortener.Infrastructure.Configuration
 		public void Configure(EntityTypeBuilder<UrlEntity> builder)
 		{
 			builder.HasKey(x => x.Token);
+
+			builder.HasIndex(x => x.OriginalUrl);
 		}
 	}
 }

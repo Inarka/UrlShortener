@@ -1,8 +1,6 @@
-﻿using Microsoft.Extensions.Options;
-using UrlShortener.Core.Interfaces;
+﻿using UrlShortener.Core.Interfaces;
 using UrlShortener.Core.Interfaces.Data;
 using UrlShortener.Core.Interfaces.Helpers;
-using UrlShortener.Core.Models;
 using UrlShortener.Core.Models.Entities;
 using UrlShortener.Core.Services.Helpers.Extensions;
 
