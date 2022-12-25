@@ -20,7 +20,7 @@ namespace UrlShortener.Infrastructure.Repositories
 
 		public Task<UrlEntity?> FindByOriginalUrlAsync(string originalUrl)
 		{
-			return _dbContext.Urls.AsNoTracking().FirstOrDefaultAsync(t => t.OriginalUrl.ToLower() == originalUrl.ToLower());
+			return _dbContext.Urls.AsNoTracking().FirstOrDefaultAsync(t => t.OriginalUrl == originalUrl);
 		}
 
 		public async Task SaveAsync(UrlEntity token)

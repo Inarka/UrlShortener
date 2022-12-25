@@ -1,4 +1,5 @@
-﻿using UrlShortener.Core.Interfaces.Helpers;
+﻿using System;
+using UrlShortener.Core.Interfaces.Helpers;
 
 namespace UrlShortener.Core.Services.Helpers.Validators
 {
@@ -6,16 +7,9 @@ namespace UrlShortener.Core.Services.Helpers.Validators
 	{
 		public bool TryCreateValidUrl(string input, out string url)
 		{
-			url = new UriBuilder(input).Uri.ToString();
+			url = new UriBuilder(input).Uri.ToString().ToLower();
 
-			var created = Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out var uri);
-
-			if (created)
-			{
-				url = uri.ToString();
-			}
-
-			return created;
+			return Uri.IsWellFormedUriString(url, UriKind.Absolute);
 		}
 	}
 }

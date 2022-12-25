@@ -3,7 +3,6 @@ using UrlShortener.Core.Interfaces.Data;
 using UrlShortener.Core.Interfaces.Helpers;
 using UrlShortener.Core.Models.Entities;
 using UrlShortener.Core.Models.Exceptions;
-using UrlShortener.Core.Services.Helpers.Extensions;
 
 namespace UrlShortener.Core.Services
 {
