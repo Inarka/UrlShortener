@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UrlShortener.Core.Models.Exceptions
 {
-	internal class NotValidUrlException : Exception
+	public class NotValidUrlException : Exception
 	{
 		public NotValidUrlException() : base("Введенный url некорректен.")
 		{

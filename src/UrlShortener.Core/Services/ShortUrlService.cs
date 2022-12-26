@@ -8,7 +8,7 @@ using UrlShortener.Core.Models.Settings;
 
 namespace UrlShortener.Core.Services
 {
-	internal class ShortUrlService : IShortUrlService
+	public class ShortUrlService : IShortUrlService
 	{
 		private readonly UrlSettings _urlSettings;
 		private readonly IUriHelper _uriHelper;
