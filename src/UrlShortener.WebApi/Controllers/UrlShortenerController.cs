@@ -1,4 +1,4 @@
-using AutoMapper;
+п»їusing AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using UrlShortener.Core.Interfaces;
 using UrlShortener.WebApi.Models;
@@ -21,47 +21,47 @@ public class UrlShortenerController : ControllerBase
     }
 
     /// <summary>
-    /// Редирект на оригинальный адрес по введенному токену
+    /// Р РµРґРёСЂРµРєС‚ РЅР° РѕСЂРёРіРёРЅР°Р»СЊРЅС‹Р№ Р°РґСЂРµСЃ РїРѕ РІРІРµРґРµРЅРЅРѕРјСѓ С‚РѕРєРµРЅСѓ
     /// </summary>
-    /// <param name="token">Сгенерированный системой токен</param>
-    /// <returns>Редирект на оригинальный адрес</returns>
+    /// <param name="token">РЎРіРµРЅРµСЂРёСЂРѕРІР°РЅРЅС‹Р№ СЃРёСЃС‚РµРјРѕР№ С‚РѕРєРµРЅ</param>
+    /// <returns>Р РµРґРёСЂРµРєС‚ РЅР° РѕСЂРёРіРёРЅР°Р»СЊРЅС‹Р№ Р°РґСЂРµСЃ</returns>
     [HttpGet("original-url")]
 	public async Task<IActionResult> GetOriginalUrl(string token)
 	{
-        _logger.LogInformation("Получен запрос на получение полной ссылки по токену {token}", token);
+        _logger.LogInformation("РџРѕР»СѓС‡РµРЅ Р·Р°РїСЂРѕСЃ РЅР° РїРѕР»СѓС‡РµРЅРёРµ РїРѕР»РЅРѕР№ СЃСЃС‹Р»РєРё РїРѕ С‚РѕРєРµРЅСѓ {token}", token);
 
 		var response = await _urlService.GetOriginalUrlAsync(token);
 
         if (response == null)
         {
-            return NotFound($"Для токена {token} не найдена полная ссылка");
+            return NotFound($"Р”Р»СЏ С‚РѕРєРµРЅР° {token} РЅРµ РЅР°Р№РґРµРЅР° РїРѕР»РЅР°СЏ СЃСЃС‹Р»РєР°");
         }
 
-		_logger.LogInformation("Для токена {token} выполняется редирект на адрес {originalUrl}", token, response.OriginalUrl);
+		_logger.LogInformation("Р”Р»СЏ С‚РѕРєРµРЅР° {token} РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ СЂРµРґРёСЂРµРєС‚ РЅР° Р°РґСЂРµСЃ {originalUrl}", token, response.OriginalUrl);
 
 		return Redirect(response.OriginalUrl);
 	}
 
     /// <summary>
-    /// Генерация короткой ссылки 
+    /// Р“РµРЅРµСЂР°С†РёСЏ РєРѕСЂРѕС‚РєРѕР№ СЃСЃС‹Р»РєРё 
     /// </summary>
-    /// <param name="request">Запрос с оригинальной ссылкой</param>
-    /// <returns>Ответ, содержащий токен, короткую ссылку и QR-код</returns>
+    /// <param name="request">Р—Р°РїСЂРѕСЃ СЃ РѕСЂРёРіРёРЅР°Р»СЊРЅРѕР№ СЃСЃС‹Р»РєРѕР№</param>
+    /// <returns>РћС‚РІРµС‚, СЃРѕРґРµСЂР¶Р°С‰РёР№ С‚РѕРєРµРЅ, РєРѕСЂРѕС‚РєСѓСЋ СЃСЃС‹Р»РєСѓ Рё QR-РєРѕРґ</returns>
 	[HttpPost("generate-short-url")]
     public async Task<IActionResult> GenerateShortUrlAsync(GenerateShortUrlRequest request)
     {
 		if (!ModelState.IsValid)
         {
-            return BadRequest("Введите URL для генерации короткой ссылки");
+            return BadRequest("Р’РІРµРґРёС‚Рµ URL РґР»СЏ РіРµРЅРµСЂР°С†РёРё РєРѕСЂРѕС‚РєРѕР№ СЃСЃС‹Р»РєРё");
         }
 
-		_logger.LogInformation("Получен запрос на генерацию короткой ссылки для URL {originalUrl}", request.Url);
+		_logger.LogInformation("РџРѕР»СѓС‡РµРЅ Р·Р°РїСЂРѕСЃ РЅР° РіРµРЅРµСЂР°С†РёСЋ РєРѕСЂРѕС‚РєРѕР№ СЃСЃС‹Р»РєРё РґР»СЏ URL {originalUrl}", request.Url);
 
 		var shortUrl = await _urlService.GetShortUrlAsync(request.Url);
 
         var response = _mapper.Map<GenerateShortUrlResponse>(shortUrl);
 
-		_logger.LogInformation("Для URL {originalUrl} сгенерирована короткая ссылка {shortUrl}", request.Url, response.ShortUrl);
+		_logger.LogInformation("Р”Р»СЏ URL {originalUrl} СЃРіРµРЅРµСЂРёСЂРѕРІР°РЅР° РєРѕСЂРѕС‚РєР°СЏ СЃСЃС‹Р»РєР° {shortUrl}", request.Url, response.ShortUrl);
 
 		return Ok(response);
     }
