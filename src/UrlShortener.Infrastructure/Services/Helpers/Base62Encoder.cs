@@ -2,9 +2,9 @@
 
 namespace UrlShortener.Core.Services.Helpers
 {
-    internal static class Base62Encoder 
+    public static class Base62Encoder 
     {
-        private const string _alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        private const string _alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
         public static string Encode(int counter)
         {
@@ -12,7 +12,7 @@ namespace UrlShortener.Core.Services.Helpers
 
             while (counter > 0)
             {
-                result.Append(_alphabet[counter % 62]);
+                result.Insert(0, _alphabet[counter % 62]);
                 counter /= 62;
             }
 
