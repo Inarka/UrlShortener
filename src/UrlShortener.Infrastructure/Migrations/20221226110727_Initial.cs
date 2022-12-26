@@ -26,8 +26,9 @@ namespace UrlShortener.Infrastructure.Migrations
                 columns: table => new
                 {
                     Token = table.Column<string>(type: "text", nullable: false),
+                    ShortUrl = table.Column<string>(type: "text", nullable: false),
                     OriginalUrl = table.Column<string>(type: "text", nullable: false),
-                    QrCode = table.Column<byte[]>(type: "bytea", nullable: false)
+                    QrCode = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -37,7 +38,7 @@ namespace UrlShortener.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Counters",
                 columns: new[] { "DefaultValue", "CurrentValue" },
-                values: new object[] { new Guid("85a99ff1-807b-4c75-9381-755e2aa1c71d"), 0 });
+                values: new object[] { new Guid("1e44280f-1fcf-4398-a923-9431afa95e29"), 0 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Urls_OriginalUrl",

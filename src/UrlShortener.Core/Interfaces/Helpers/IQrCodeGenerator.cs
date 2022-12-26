@@ -1,7 +1,7 @@
 ﻿namespace UrlShortener.Core.Interfaces.Helpers
 {
-    internal interface IQrCodeGenerator
+    public interface IQrCodeGenerator
     {
-        public byte[] Generate(string input);
+        public string Generate(string input);
     }
 }

@@ -3,17 +3,20 @@
     public class UrlEntity
     {
         public UrlEntity() { }
-        public UrlEntity(string url, string token, byte[] qrCode)
+        public UrlEntity(string url, string token, string shortUrl, string qrCode)
         {
             OriginalUrl = url;
             Token = token;
+            ShortUrl = shortUrl;
             QrCode = qrCode;
         }
 
         public string Token { get; set; } = "";
 
+        public string ShortUrl { get; set; } = "";
+
         public string OriginalUrl { get; set; } = "";
 
-        public byte[] QrCode { get; set; } = new byte[0];
+        public string QrCode { get; set; } = "";
     }
 }

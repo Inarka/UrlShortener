@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UrlShortener.Core.Interfaces.Helpers
 {
-	internal interface IUriHelper
+	public interface IUriHelper
 	{
 		public bool TryCreateValidUrl(string input, out string url);
 	}

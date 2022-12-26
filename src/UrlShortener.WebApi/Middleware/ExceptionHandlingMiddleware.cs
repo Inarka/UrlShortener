@@ -3,22 +3,18 @@ using System.Text.Json;
 
 namespace UrlShortener.WebApi.Middleware
 {
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 	public class ExceptionHandlingMiddleware
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 	{
 		private readonly RequestDelegate _next;
+		private readonly ILogger<ExceptionHandlingMiddleware> _logger;
 
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-		public ExceptionHandlingMiddleware(RequestDelegate next)
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+		public ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
 		{
 			_next = next;
+			_logger = logger;
 		}
 
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 		public async Task InvokeAsync(HttpContext context)
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 		{
 			try
 			{
@@ -33,6 +29,8 @@ namespace UrlShortener.WebApi.Middleware
 
 		private async Task HandleExceptionAsync(HttpContext context, Exception ex)
 		{
+			_logger.LogError(ex, $"Произошла ошибка {ex.Message}");
+
 			context.Response.ContentType = "application/json";
 			context.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
 

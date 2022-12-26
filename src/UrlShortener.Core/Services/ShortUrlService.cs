@@ -1,23 +1,28 @@
-﻿using UrlShortener.Core.Interfaces;
+﻿using Microsoft.Extensions.Options;
+using UrlShortener.Core.Interfaces;
 using UrlShortener.Core.Interfaces.Data;
 using UrlShortener.Core.Interfaces.Helpers;
 using UrlShortener.Core.Models.Entities;
 using UrlShortener.Core.Models.Exceptions;
+using UrlShortener.Core.Models.Settings;
 
 namespace UrlShortener.Core.Services
 {
 	internal class ShortUrlService : IShortUrlService
 	{
+		private readonly UrlSettings _urlSettings;
 		private readonly IUriHelper _uriHelper;
 		private readonly IUrlRepository _urlRepository;
 		private readonly ITokenGenerator _tokenGenerator;
 		private readonly IQrCodeGenerator _qrCodeGenerator;
 
-		public ShortUrlService(IUrlRepository linkRepository,
+		public ShortUrlService(IOptions<UrlSettings> urlSettings,
+			IUrlRepository linkRepository,
 			ITokenGenerator tokenGenerator,
 			IQrCodeGenerator qrCodeGenerator,
 			IUriHelper validator)
 		{
+			_urlSettings = urlSettings.Value;
 			_urlRepository = linkRepository;
 			_tokenGenerator = tokenGenerator;
 			_qrCodeGenerator = qrCodeGenerator;
@@ -54,7 +59,7 @@ namespace UrlShortener.Core.Services
 
 			var qrCode = _qrCodeGenerator.Generate(token);
 
-			return new UrlEntity(originalUrl, token, qrCode);
+			return new UrlEntity(originalUrl, token, _urlSettings.BaseShortUrl + token, qrCode);
 		}
 	}
 }

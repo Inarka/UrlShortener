@@ -1,6 +1,8 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using UrlShortener.Core;
+using UrlShortener.Core.Models.Settings;
 using UrlShortener.Infrastructure;
 using UrlShortener.WebApi.Middleware;
 using UrlShortener.WebApi.Models;
@@ -16,6 +18,11 @@ builder.Services.AddInfrastructure(builder.Configuration.GetConnectionString("Db
 builder.Services.AddCors();
 
 builder.Services.AddControllers();
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+	options.SuppressModelStateInvalidFilter = true;
+});
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 

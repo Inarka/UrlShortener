@@ -12,7 +12,7 @@ using UrlShortener.Infrastructure;
 namespace UrlShortener.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221224113444_Initial")]
+    [Migration("20221226110727_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,7 +41,7 @@ namespace UrlShortener.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            DefaultValue = new Guid("85a99ff1-807b-4c75-9381-755e2aa1c71d"),
+                            DefaultValue = new Guid("1e44280f-1fcf-4398-a923-9431afa95e29"),
                             CurrentValue = 0
                         });
                 });
@@ -55,9 +55,13 @@ namespace UrlShortener.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<byte[]>("QrCode")
+                    b.Property<string>("QrCode")
                         .IsRequired()
-                        .HasColumnType("bytea");
+                        .HasColumnType("text");
+
+                    b.Property<string>("ShortUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Token");
 

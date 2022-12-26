@@ -1,7 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using UrlShortener.Core.Interfaces.Data;
+using UrlShortener.Core.Services.Helpers.Validators;
+using UrlShortener.Core.Services.Helpers;
 using UrlShortener.Infrastructure.Repositories;
+using UrlShortener.Core.Interfaces.Helpers;
 
 namespace UrlShortener.Infrastructure
 {
@@ -14,6 +17,12 @@ namespace UrlShortener.Infrastructure
 			services.AddScoped<IUrlRepository, UrlRepository>();
 
 			services.AddScoped<ITokenRepository, TokenRepository>();
+
+			services.AddTransient<IUriHelper, UriHelper>();
+
+			services.AddTransient<ITokenGenerator, TokenGenerator>();
+
+			services.AddTransient<IQrCodeGenerator, QrCodeGenerator>();
 
 			return services;
 		}

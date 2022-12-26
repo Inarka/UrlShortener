@@ -23,9 +23,9 @@ namespace UrlShortener.Infrastructure.Repositories
 			return _dbContext.Urls.AsNoTracking().FirstOrDefaultAsync(t => t.OriginalUrl == originalUrl);
 		}
 
-		public async Task SaveAsync(UrlEntity token)
+		public async Task SaveAsync(UrlEntity url)
 		{
-			await _dbContext.Urls.AddAsync(token);
+			await _dbContext.Urls.AddAsync(url);
 
 			await _dbContext.SaveChangesAsync();
 		}

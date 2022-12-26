@@ -1,6 +1,8 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System.Drawing;
+using System.Drawing.Imaging;
 using UrlShortener.Core.Interfaces;
 using UrlShortener.WebApi.Models;
 
@@ -8,20 +10,14 @@ namespace UrlShortener.WebApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 public class UrlShortenerController : ControllerBase
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 {
     private readonly IShortUrlService _urlService;
-	private readonly UrlSettings _urlSettings;
 	private readonly IMapper _mapper;
 
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    public UrlShortenerController(IShortUrlService urlService, IOptions<UrlSettings> settings, IMapper mapper)
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+    public UrlShortenerController(IShortUrlService urlService, IMapper mapper)
     {
 		_urlService = urlService;
-        _urlSettings = settings.Value;
         _mapper = mapper;
     }
 
@@ -53,13 +49,13 @@ public class UrlShortenerController : ControllerBase
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest("Проверьте модель данных");
+            return BadRequest("Введите URL для генерации короткой ссылки");
         }
 
         var shortUrl = await _urlService.GetShortUrlAsync(request.Url);
 
-        var response = _mapper.Map<GenerateShortUrlResponse>(shortUrl, opt => opt.Items["BaseShortUrl"] = _urlSettings.BaseShortUrl);
+        var response = _mapper.Map<GenerateShortUrlResponse>(shortUrl);
 
-        return Ok(response);
+		return Ok(response);
     }
 }
