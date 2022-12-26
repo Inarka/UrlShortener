@@ -57,9 +57,11 @@ namespace UrlShortener.Core.Services
 		{
 			var token = await _tokenGenerator.GenerateAsync();
 
-			var qrCode = _qrCodeGenerator.Generate(token);
+			var shortUrl = _urlSettings.BaseShortUrl + token;
 
-			return new UrlEntity(originalUrl, token, _urlSettings.BaseShortUrl + token, qrCode);
+			var qrCode = _qrCodeGenerator.Generate(shortUrl);
+
+			return new UrlEntity(originalUrl, token, shortUrl, qrCode);
 		}
 	}
 }
